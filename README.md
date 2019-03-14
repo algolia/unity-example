@@ -2,7 +2,7 @@
 
 In this repository you will find a sample app featuring **Algolia** and **Unity**. This POC is using [Unity UI starter kit](https://assetstore.unity.com/packages/essentials/unity-samples-ui-25468), the [Algolia .NET client](https://github.com/algolia/algoliasearch-client-csharp) and [CC images](https://opengameart.org/content/17-planet-sprites).
 
-<img width="1000" alt="Screenshot 2019-03-03 at 17 39 11" src="https://user-images.githubusercontent.com/22633119/54300844-01559700-45be-11e9-9290-ba7a3134067a.png">
+<img width="1000" alt="Screenshot 2019-03-14 at 09 38 54" src="https://user-images.githubusercontent.com/22633119/54342635-4a006500-463d-11e9-8dd4-d3cefeb146c5.png">
 
 # Getting Started
 
