@@ -98,7 +98,7 @@ namespace Assets.Scripts
 
             IEnumerator LoadTexture(RawImage image, int i)
             {
-                var resourceRequest = Resources.LoadAsync<Texture2D>($"{planets[i].Path}"); ;
+                var resourceRequest = Resources.LoadAsync<Texture2D>($"{planets[i].Path}");
                 while (!resourceRequest.isDone)
                 {
                     yield return 0;
