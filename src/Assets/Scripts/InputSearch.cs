@@ -82,7 +82,7 @@ namespace Assets.Scripts
 
         void LoadResults(List<Planet> planets)
         {
-            _planets?.ForEach(Destroy);
+            _planets?.ForEach(DestroyImmediate);
 
             int positionX = 60;
             int paddingX = 190;
