@@ -4,8 +4,11 @@ using Algolia.Search.Models.Search;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine.Windows.Speech;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Text;
 
 namespace Assets.Scripts
 {
@@ -16,6 +19,7 @@ namespace Assets.Scripts
         private SearchIndex _searchIndex;
         private readonly List<GameObject> _planets = new List<GameObject>();
         private GameObject _viewPort;
+        DictationRecognizer dictationRecognizer;
 
         // Start is called before the first frame update
         void Start()
@@ -26,10 +30,31 @@ namespace Assets.Scripts
             _searchClient = new SearchClient(appId, apiKey);
             _searchIndex = _searchClient.InitIndex("Planets");
             _viewPort = GameObject.Find("Viewport");
+
+            dictationRecognizer = new DictationRecognizer();
+            dictationRecognizer.DictationHypothesis += (text) =>
+            {
+                if (text.Equals("empty"))
+                {
+                    SearchInput.text = "";
+                    doSearch("");
+                    return;
+                }
+
+                SearchInput.text = text;
+                doSearch(text);
+            };
+
+            dictationRecognizer.Start();
+        }
+        void OnDestroy()
+        {
+            dictationRecognizer.Stop();
+            dictationRecognizer.Dispose();
         }
 
         // Invoked when the value of the text field changes.
-        public async void ValueChangeCheck()
+        public void ValueChangeCheck()
         {
             var search = SearchInput.text;
 
@@ -39,6 +64,11 @@ namespace Assets.Scripts
                 return;
             }
 
+            doSearch(search);
+        }
+
+        public async void doSearch(string text)
+        {
             var results = await _searchIndex.SearchAsync<Planet>(new Query(SearchInput.text)
             {
                 HitsPerPage = 8,
@@ -104,8 +134,11 @@ namespace Assets.Scripts
                     yield return 0;
                 }
 
-                image.texture = resourceRequest.asset as Texture2D;
-                image.color = Color.white;
+                if (image != null)
+                {
+                    image.texture = resourceRequest.asset as Texture2D;
+                    image.color = Color.white;
+                }
             }
         }
     }
