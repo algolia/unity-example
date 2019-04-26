@@ -34,15 +34,19 @@ namespace Assets.Scripts
             dictationRecognizer = new DictationRecognizer();
             dictationRecognizer.DictationHypothesis += (text) =>
             {
-                if (text.Equals("empty"))
+                if (text.Equals("clear"))
                 {
                     SearchInput.text = "";
                     doSearch("");
                     return;
                 }
 
-                SearchInput.text = text;
-                doSearch(text);
+                if (text.Contains("search") && !text.Equals("search"))
+                {
+                    string searchString = text.Replace("search", String.Empty);
+                    SearchInput.text = searchString;
+                    doSearch(searchString);
+                }
             };
 
             dictationRecognizer.Start();
@@ -56,6 +60,7 @@ namespace Assets.Scripts
         // Invoked when the value of the text field changes.
         public void ValueChangeCheck()
         {
+
             var search = SearchInput.text;
 
             if (string.IsNullOrWhiteSpace(search))
@@ -63,7 +68,7 @@ namespace Assets.Scripts
                 _planets?.ForEach(Destroy);
                 return;
             }
-
+            Debug.Log("value change check");
             doSearch(search);
         }
 
